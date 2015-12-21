@@ -13,30 +13,35 @@ class MainViewController: UIViewController {
   
   var didUpdateViewConstraints = false
   
+  /**
+   * No blur effect right now.
+   */
   let blurLoadingView : UIView = {
     let blurLoadingView = UIView.newAutoLayoutView()
-    if !UIAccessibilityIsReduceTransparencyEnabled() {
-      blurLoadingView.backgroundColor = UIColor.clearColor()
-      let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
-      let blurEffectView = UIVisualEffectView(effect: blurEffect)
-      blurEffectView.frame = blurLoadingView.bounds
-      blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-      blurLoadingView.addSubview(blurEffectView)
-    }
+    blurLoadingView.backgroundColor = UIColor(rgba: "#84BA40")
+//    if !UIAccessibilityIsReduceTransparencyEnabled() {
+////      blurLoadingView.backgroundColor = UIColor.clearColor()
+//      let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
+//      let blurEffectView = UIVisualEffectView(effect: blurEffect)
+//      blurEffectView.frame = blurLoadingView.bounds
+//      blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+//      blurLoadingView.addSubview(blurEffectView)
+//    }
     return blurLoadingView
   }()
   
   let roundedStreamTextField : UIView = {
     let roundedStreamTextField = UIView.newAutoLayoutView()
+    roundedStreamTextField.backgroundColor = UIColor(rgba: "#116735")
+    roundedStreamTextField.layer.cornerRadius = 5
     return roundedStreamTextField
   }()
   
   let streamNameTextField : UITextField = {
     let streamNameTextField = UITextField.newAutoLayoutView()
-    streamNameTextField.attributedPlaceholder = NSAttributedString(string: "name_stream",
+    streamNameTextField.attributedPlaceholder = NSAttributedString(string: "search".localized,
       attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
     streamNameTextField.textColor = UIColor.whiteColor()
-    streamNameTextField.alpha = 0.8
     return streamNameTextField
   }()
   
@@ -45,12 +50,29 @@ class MainViewController: UIViewController {
     tableView.backgroundColor = UIColor.clearColor()
     tableView.keyboardDismissMode = .OnDrag
     tableView.separatorInset.right = tableView.separatorInset.left
+    tableView.hidden = true
     return tableView
+  }()
+  
+  let warningView : UILabel = {
+    let warningView = UILabel.newAutoLayoutView()
+    warningView.text = "no_library_found".localized
+    warningView.textColor = UIColor.whiteColor()
+    warningView.hidden = true
+    return warningView
+  }()
+  
+  let gradleView : UIImageView = {
+    let gradleView = UIImageView.newAutoLayoutView()
+    gradleView.image = UIImage(named : "gradle_icon")
+    return gradleView
   }()
 
   override func loadView() {
     super.loadView()
     self.view.backgroundColor = UIColor(rgba: "#02303A")
+    self.view.addSubview(warningView)
+    self.view.addSubview(gradleView)
     self.view.addSubview(tableView)
     self.view.addSubview(blurLoadingView)
     blurLoadingView.addSubview(roundedStreamTextField)
@@ -76,6 +98,11 @@ class MainViewController: UIViewController {
       streamNameTextField.autoPinEdge(.Top, toEdge: .Top, ofView: roundedStreamTextField, withOffset: 8.0)
       streamNameTextField.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: roundedStreamTextField, withOffset: -8.0)
       
+      gradleView.autoMatchDimension(.Width, toDimension: .Width, ofView: self.view, withMultiplier: 0.4)
+      gradleView.autoMatchDimension(.Height, toDimension: .Width, ofView: gradleView, withMultiplier: 0.4588)
+      gradleView.autoCenterInSuperview()
+      warningView.autoCenterInSuperview()
+      
       let blurViewHeight = blurLoadingView.bounds.height
       tableView.contentInset = UIEdgeInsetsMake(blurViewHeight, 0, 0, 0)
       
@@ -92,6 +119,17 @@ class MainViewController: UIViewController {
     super.didReceiveMemoryWarning()
   }
 
+  func showTableView() {
+    gradleView.hidden = true
+    tableView.hidden = false
+    warningView.hidden = true
+  }
+  
+  func showLoading() {
+    gradleView.hidden = true
+    tableView.hidden = true
+    warningView.hidden = false
+  }
 
 }
 
