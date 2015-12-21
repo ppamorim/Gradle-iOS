@@ -13,6 +13,8 @@ class MainViewController: UIViewController {
   
   var didUpdateViewConstraints = false
   
+  let searchService = SearchService.instance
+  
   /**
    * No blur effect right now.
    */
@@ -42,6 +44,7 @@ class MainViewController: UIViewController {
     streamNameTextField.attributedPlaceholder = NSAttributedString(string: "search".localized,
       attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
     streamNameTextField.textColor = UIColor.whiteColor()
+    streamNameTextField.returnKeyType = UIReturnKeyType.Go
     return streamNameTextField
   }()
   
@@ -78,6 +81,11 @@ class MainViewController: UIViewController {
     blurLoadingView.addSubview(roundedStreamTextField)
     roundedStreamTextField.addSubview(streamNameTextField)
     self.view.setNeedsUpdateConstraints()
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    configDelegate()
   }
   
   override func updateViewConstraints() {
@@ -118,6 +126,10 @@ class MainViewController: UIViewController {
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
   }
+  
+  func configDelegate() {
+    streamNameTextField.delegate = self
+  }
 
   func showTableView() {
     gradleView.hidden = true
@@ -133,3 +145,15 @@ class MainViewController: UIViewController {
 
 }
 
+extension MainViewController : UITextFieldDelegate {
+  
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    let text = textField.text
+    if text != nil && text?.characters.count > 0 {
+      searchService.search(nil, filter: text!)
+    }
+    return true
+  }
+  
+}

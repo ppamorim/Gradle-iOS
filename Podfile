@@ -4,5 +4,7 @@
 
 target 'Gradle-iOS' do
   pod 'PureLayout'
+  pod 'Alamofire', '~> 3.1.3'
+  pod 'AlamofireObjectMapper', '~> 2.1.0'
 end
 
