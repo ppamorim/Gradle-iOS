@@ -1,0 +1,6 @@
+framework module Pods_Gradle_iOS {
+  umbrella header "Pods-Gradle-iOS-umbrella.h"
+
+  export *
+  module * { export * }
+}
