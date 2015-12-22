@@ -13,6 +13,8 @@ class MainViewController: UIViewController {
   
   var didUpdateViewConstraints = false
   
+  var projects : [Project]? = nil
+  
   let searchService = SearchService.instance
   
   /**
@@ -51,6 +53,7 @@ class MainViewController: UIViewController {
   let tableView : UITableView = {
     let tableView = UITableView.newAutoLayoutView()
     tableView.backgroundColor = UIColor.clearColor()
+    tableView.registerClass(ProjectViewCell.self, forCellReuseIdentifier: "ProjectViewCell")
     tableView.keyboardDismissMode = .OnDrag
     tableView.separatorInset.right = tableView.separatorInset.left
     tableView.hidden = true
@@ -129,6 +132,8 @@ class MainViewController: UIViewController {
   
   func configDelegate() {
     streamNameTextField.delegate = self
+    tableView.delegate = self
+    tableView.dataSource = self
   }
 
   func showTableView() {
@@ -151,9 +156,54 @@ extension MainViewController : UITextFieldDelegate {
     textField.resignFirstResponder()
     let text = textField.text
     if text != nil && text?.characters.count > 0 {
-      searchService.search(nil, filter: text!)
+      searchService.search({ (error, projects) in
+        if error == nil && projects?.count > 0 {
+          self.projects = projects
+          self.tableView.reloadData()
+          self.showTableView()
+        }
+        }, filter: text!)
     }
     return true
   }
   
 }
+
+extension MainViewController : UITableViewDelegate {
+  
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    self.view.endEditing(true)
+  }
+  
+  func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    return 100
+  }
+  
+  func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    return 100
+  }
+  
+  func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    return 1
+  }
+  
+}
+
+extension MainViewController : UITableViewDataSource {
+  
+  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return self.projects?.count ?? 0
+  }
+  
+  func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    (cell as! ProjectViewCell).bind((self.projects![indexPath.row]))
+  }
+  
+  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    return tableView.dequeueReusableCellWithIdentifier("ProjectViewCell", forIndexPath: indexPath)
+  }
+  
+}
+
+

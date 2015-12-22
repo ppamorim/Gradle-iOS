@@ -1,5 +1,6 @@
 import Alamofire
 import AlamofireObjectMapper
+import ObjectMapper
 
 private let _SearchServiceInstance = SearchService()
 
@@ -9,26 +10,23 @@ class SearchService {
     return _SearchServiceInstance
   }
   
-  func search(completionHandler: (ErrorType?), filter : String) -> () {
+  func search(completionHandler: (ErrorType?, [Project]?) -> (), filter : String) -> () {
+    
     let mutableURLRequest = NSMutableURLRequest(URL: NSURL(string:
-      "https://gradleplease.appspot.com/search?q=\(filter)")!)
-    
-    print(mutableURLRequest)
-    
+      "http://search.maven.org/solrsearch/select?q=\(filter)&wt=json")!)
     mutableURLRequest.timeoutInterval = 30.0
+    
     Alamofire.request(.GET, mutableURLRequest)
       .validate()
-      .response() { result in
-        print(result)
+      .responseJSON { response in
+        if let JSON = response.result.value {
+          let result = (JSON as! NSDictionary).valueForKey("response")?.valueForKey("docs")
+          let docs : [Project] = Mapper<Project>().mapArray(result!)!
+          completionHandler(nil, docs)
+        } else {
+          completionHandler(response.result.error, nil)
+        }
       }
-//      .responseArray {
-//        (response: Response<[Camera], NSError>) in
-//        let result = response.result.value!.map {
-//          (camera) -> Camera in
-//          camera.live = true
-//          return camera
-//        }
-//        completionHandler(response.result.error, result)
   }
   
 }

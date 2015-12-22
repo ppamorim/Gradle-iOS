@@ -1,19 +1,19 @@
 import UIKit
 import PureLayout
 
-class LibraryViewCell : UITableViewCell {
+class ProjectViewCell : UITableViewCell {
   
   var didUpdateConstraints = false
   
   let title : UILabel = {
     let title = UILabel.newAutoLayoutView()
     title.textColor = UIColor(rgba: "#3A3D3F")
-    title.text = "TESTE"
     return title
   }()
   
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    contentView.backgroundColor = UIColor.clearColor()
     contentView.addSubview(title)
     self.updateConstraintsIfNeeded()
   }
@@ -29,6 +29,10 @@ class LibraryViewCell : UITableViewCell {
   
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)!
+  }
+  
+  func bind(project : Project) {
+    title.text = project.id
   }
   
 }
