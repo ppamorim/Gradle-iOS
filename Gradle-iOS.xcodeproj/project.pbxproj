@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4F282514BDBEC4FA4D168C42 /* Pods_Gradle_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7F4EF1A71071BB5564F27E8 /* Pods_Gradle_iOS.framework */; };
+		EB2C3CAB1C2B009F004821AA /* SearchProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2C3CAA1C2B009F004821AA /* SearchProtocol.swift */; };
 		EB301BB31C29A931000A3C42 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB301BB21C29A931000A3C42 /* Project.swift */; };
 		EB320E871C289759001F9297 /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB320E861C289759001F9297 /* SearchService.swift */; };
 		EB320E8B1C28996A001F9297 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB320E881C28996A001F9297 /* Alamofire.framework */; };
@@ -22,12 +23,15 @@
 		EB9058DE1C27870F0018D327 /* PureLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB9058DD1C27870F0018D327 /* PureLayout.framework */; };
 		EB9058E11C27943B0018D327 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9058E01C27943B0018D327 /* UIColorExtension.swift */; };
 		EB9058E41C27A5330018D327 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB9058E61C27A5330018D327 /* Localizable.strings */; };
+		EBBD5B4F1C2AD21100AD9511 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBBD5B4E1C2AD21100AD9511 /* Bolts.framework */; };
+		EBBD5B521C2AD39400AD9511 /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBD5B511C2AD39400AD9511 /* SearchInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		ADA246681325DE765C70D171 /* Pods-Gradle-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gradle-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Gradle-iOS/Pods-Gradle-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		D7F4EF1A71071BB5564F27E8 /* Pods_Gradle_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Gradle_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E587CC40A4A7A462D1C6E574 /* Pods-Gradle-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gradle-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Gradle-iOS/Pods-Gradle-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		EB2C3CAA1C2B009F004821AA /* SearchProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchProtocol.swift; sourceTree = "<group>"; };
 		EB301BB21C29A931000A3C42 /* Project.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		EB320E861C289759001F9297 /* SearchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
 		EB320E881C28996A001F9297 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
@@ -45,6 +49,8 @@
 		EB9058E01C27943B0018D327 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		EB9058E51C27A5330018D327 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EB9058E71C27A5350018D327 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EBBD5B4E1C2AD21100AD9511 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "Pods/../build/Debug-iphoneos/Bolts.framework"; sourceTree = "<group>"; };
+		EBBD5B511C2AD39400AD9511 /* SearchInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBBD5B4F1C2AD21100AD9511 /* Bolts.framework in Frameworks */,
 				EB320E8B1C28996A001F9297 /* Alamofire.framework in Frameworks */,
 				EB320E8C1C28996A001F9297 /* AlamofireObjectMapper.framework in Frameworks */,
 				EB320E8D1C28996A001F9297 /* ObjectMapper.framework in Frameworks */,
@@ -66,6 +73,7 @@
 		6D16D671208B800E9F3CED04 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EBBD5B4E1C2AD21100AD9511 /* Bolts.framework */,
 				EB320E881C28996A001F9297 /* Alamofire.framework */,
 				EB320E891C28996A001F9297 /* AlamofireObjectMapper.framework */,
 				EB320E8A1C28996A001F9297 /* ObjectMapper.framework */,
@@ -82,6 +90,14 @@
 				E587CC40A4A7A462D1C6E574 /* Pods-Gradle-iOS.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		EB2C3CA91C2B005D004821AA /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				EB2C3CAA1C2B009F004821AA /* SearchProtocol.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		EB301BB11C29A8D4000A3C42 /* Model */ = {
@@ -130,6 +146,8 @@
 		EB9058CA1C2779B70018D327 /* Gradle-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				EB2C3CA91C2B005D004821AA /* Protocol */,
+				EBBD5B501C2AD38900AD9511 /* Interactor */,
 				EB301BB11C29A8D4000A3C42 /* Model */,
 				EB320E851C289722001F9297 /* Service */,
 				EB54574D1C28263F00F436C1 /* ViewCell */,
@@ -150,6 +168,14 @@
 				EB54574B1C281AC300F436C1 /* StringExtension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		EBBD5B501C2AD38900AD9511 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				EBBD5B511C2AD39400AD9511 /* SearchInteractor.swift */,
+			);
+			path = Interactor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,10 +302,12 @@
 			files = (
 				EB54574C1C281AC300F436C1 /* StringExtension.swift in Sources */,
 				EB9058CE1C2779B70018D327 /* MainViewController.swift in Sources */,
+				EBBD5B521C2AD39400AD9511 /* SearchInteractor.swift in Sources */,
 				EB9058E11C27943B0018D327 /* UIColorExtension.swift in Sources */,
 				EB320E871C289759001F9297 /* SearchService.swift in Sources */,
 				EB9058CC1C2779B70018D327 /* AppDelegate.swift in Sources */,
 				EB301BB31C29A931000A3C42 /* Project.swift in Sources */,
+				EB2C3CAB1C2B009F004821AA /* SearchProtocol.swift in Sources */,
 				EB54574F1C28266C00F436C1 /* ProjectViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

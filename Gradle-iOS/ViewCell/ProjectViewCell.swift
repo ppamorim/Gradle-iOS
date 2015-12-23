@@ -7,12 +7,13 @@ class ProjectViewCell : UITableViewCell {
   
   let title : UILabel = {
     let title = UILabel.newAutoLayoutView()
-    title.textColor = UIColor(rgba: "#3A3D3F")
+    title.textColor = UIColor.whiteColor()
     return title
   }()
   
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    self.backgroundColor = UIColor.clearColor()
     contentView.backgroundColor = UIColor.clearColor()
     contentView.addSubview(title)
     self.updateConstraintsIfNeeded()
@@ -20,8 +21,10 @@ class ProjectViewCell : UITableViewCell {
   
   override func updateConstraints() {
     if !didUpdateConstraints {
-      title.autoPinEdgeToSuperviewEdge(.Right)
+      title.autoPinEdgeToSuperviewEdge(.Left, withInset: 16.0)
+      title.autoPinEdgeToSuperviewEdge(.Right, withInset: 16.0)
       title.autoPinEdgeToSuperviewEdge(.Top)
+      title.autoPinEdgeToSuperviewEdge(.Bottom)
       didUpdateConstraints = true
     }
     super.updateConstraints()

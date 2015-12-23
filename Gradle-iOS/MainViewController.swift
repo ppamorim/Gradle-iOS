@@ -13,9 +13,9 @@ class MainViewController: UIViewController {
   
   var didUpdateViewConstraints = false
   
-  var projects : [Project]? = nil
-  
   let searchService = SearchService.instance
+  
+  var searchInteractor : SearchInteractor? = nil
   
   /**
    * No blur effect right now.
@@ -74,6 +74,10 @@ class MainViewController: UIViewController {
     return gradleView
   }()
 
+  deinit {
+    searchInteractor = nil
+  }
+  
   override func loadView() {
     super.loadView()
     self.view.backgroundColor = UIColor(rgba: "#02303A")
@@ -89,6 +93,7 @@ class MainViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configDelegate()
+    configInteractors()
   }
   
   override func updateViewConstraints() {
@@ -114,12 +119,15 @@ class MainViewController: UIViewController {
       gradleView.autoCenterInSuperview()
       warningView.autoCenterInSuperview()
       
-      let blurViewHeight = blurLoadingView.bounds.height
-      tableView.contentInset = UIEdgeInsetsMake(blurViewHeight, 0, 0, 0)
-      
       didUpdateViewConstraints = true
     }
     super.updateViewConstraints()
+  }
+  
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    let blurViewHeight = blurLoadingView.bounds.height
+    tableView.contentInset = UIEdgeInsetsMake(blurViewHeight, 0, 0, 0)
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -128,6 +136,11 @@ class MainViewController: UIViewController {
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
+  }
+  
+  func configInteractors() {
+    self.searchInteractor = SearchInteractor()
+    searchInteractor?.searchProtocol = self
   }
   
   func configDelegate() {
@@ -156,15 +169,26 @@ extension MainViewController : UITextFieldDelegate {
     textField.resignFirstResponder()
     let text = textField.text
     if text != nil && text?.characters.count > 0 {
-      searchService.search({ (error, projects) in
-        if error == nil && projects?.count > 0 {
-          self.projects = projects
-          self.tableView.reloadData()
-          self.showTableView()
-        }
-        }, filter: text!)
+      searchInteractor?.search(text!)
     }
     return true
+  }
+  
+}
+
+extension MainViewController : SearchProtocol {
+  
+  func searchSuccess(projects : [Project]) {
+    self.tableView.reloadData()
+    self.showTableView()
+  }
+  
+  func searchNoResults() {
+    
+  }
+  
+  func searchFail() {
+    
   }
   
 }
@@ -177,11 +201,11 @@ extension MainViewController : UITableViewDelegate {
   }
   
   func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    return 100
+    return 50
   }
   
   func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    return 100
+    return 50
   }
   
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -193,11 +217,11 @@ extension MainViewController : UITableViewDelegate {
 extension MainViewController : UITableViewDataSource {
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return self.projects?.count ?? 0
+    return searchInteractor!.projects?.count ?? 0
   }
   
   func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-    (cell as! ProjectViewCell).bind((self.projects![indexPath.row]))
+    (cell as! ProjectViewCell).bind((searchInteractor!.projects![indexPath.row]))
   }
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

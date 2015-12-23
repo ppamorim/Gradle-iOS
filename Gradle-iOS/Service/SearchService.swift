@@ -10,7 +10,7 @@ class SearchService {
     return _SearchServiceInstance
   }
   
-  func search(completionHandler: (ErrorType?, [Project]?) -> (), filter : String) -> () {
+  func search(completionHandler: (NSError?, [Project]?) -> (), filter : String) -> () {
     
     let mutableURLRequest = NSMutableURLRequest(URL: NSURL(string:
       "http://search.maven.org/solrsearch/select?q=\(filter)&wt=json")!)
