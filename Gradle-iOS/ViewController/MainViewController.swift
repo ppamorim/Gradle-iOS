@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  Gradle-iOS
-//
-//  Created by Pedro Paulo Amorim on 20/12/15.
-//  Copyright © 2015 ppamorim. All rights reserved.
-//
-
 import UIKit
 import PureLayout
 
@@ -17,21 +9,10 @@ class MainViewController: UIViewController {
   
   var searchInteractor : SearchInteractor? = nil
   
-  /**
-   * No blur effect right now.
-   */
-  let blurLoadingView : UIView = {
-    let blurLoadingView = UIView.newAutoLayoutView()
-    blurLoadingView.backgroundColor = UIColor(rgba: "#84BA40")
-//    if !UIAccessibilityIsReduceTransparencyEnabled() {
-////      blurLoadingView.backgroundColor = UIColor.clearColor()
-//      let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
-//      let blurEffectView = UIVisualEffectView(effect: blurEffect)
-//      blurEffectView.frame = blurLoadingView.bounds
-//      blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-//      blurLoadingView.addSubview(blurEffectView)
-//    }
-    return blurLoadingView
+  let topView : UIView = {
+    let topView = UIView.newAutoLayoutView()
+    topView.backgroundColor = UIColor(rgba: "#84BA40")
+    return topView
   }()
   
   let roundedStreamTextField : UIView = {
@@ -47,6 +28,8 @@ class MainViewController: UIViewController {
       attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
     streamNameTextField.textColor = UIColor.whiteColor()
     streamNameTextField.returnKeyType = UIReturnKeyType.Go
+    streamNameTextField.autocorrectionType = .No
+    streamNameTextField.autocapitalizationType = .None
     return streamNameTextField
   }()
   
@@ -56,6 +39,8 @@ class MainViewController: UIViewController {
     tableView.registerClass(ProjectViewCell.self, forCellReuseIdentifier: "ProjectViewCell")
     tableView.keyboardDismissMode = .OnDrag
     tableView.separatorInset.right = tableView.separatorInset.left
+    tableView.tableFooterView = UIView()
+    tableView.showsVerticalScrollIndicator = false
     tableView.hidden = true
     return tableView
   }()
@@ -73,6 +58,13 @@ class MainViewController: UIViewController {
     gradleView.image = UIImage(named : "gradle_icon")
     return gradleView
   }()
+  
+  let loadingView : UIActivityIndicatorView = {
+    let loadingView = UIActivityIndicatorView.newAutoLayoutView()
+    loadingView.hidden = true
+    loadingView.color = UIColor(rgba: "#84BA40")
+    return loadingView
+  }()
 
   deinit {
     searchInteractor = nil
@@ -82,10 +74,11 @@ class MainViewController: UIViewController {
     super.loadView()
     self.view.backgroundColor = UIColor(rgba: "#02303A")
     self.view.addSubview(warningView)
+    self.view.addSubview(loadingView)
     self.view.addSubview(gradleView)
     self.view.addSubview(tableView)
-    self.view.addSubview(blurLoadingView)
-    blurLoadingView.addSubview(roundedStreamTextField)
+    self.view.addSubview(topView)
+    topView.addSubview(roundedStreamTextField)
     roundedStreamTextField.addSubview(streamNameTextField)
     self.view.setNeedsUpdateConstraints()
   }
@@ -98,16 +91,20 @@ class MainViewController: UIViewController {
   
   override func updateViewConstraints() {
     if !didUpdateViewConstraints {
+      
       tableView.autoPinEdgesToSuperviewEdges()
+      gradleView.autoCenterInSuperview()
+      warningView.autoCenterInSuperview()
+      loadingView.autoCenterInSuperview()
       
-      blurLoadingView.autoPinEdgeToSuperviewEdge(.Top)
-      blurLoadingView.autoPinEdgeToSuperviewEdge(.Left)
-      blurLoadingView.autoPinEdgeToSuperviewEdge(.Right)
+      topView.autoPinEdgeToSuperviewEdge(.Top)
+      topView.autoPinEdgeToSuperviewEdge(.Left)
+      topView.autoPinEdgeToSuperviewEdge(.Right)
       
-      roundedStreamTextField.autoPinEdge(.Left, toEdge: .Left, ofView: blurLoadingView, withOffset: 8.0)
-      roundedStreamTextField.autoPinEdge(.Right, toEdge: .Right, ofView: blurLoadingView, withOffset: -8.0)
-      roundedStreamTextField.autoPinEdge(.Top, toEdge: .Top, ofView: blurLoadingView, withOffset: 24.0)
-      roundedStreamTextField.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: blurLoadingView, withOffset: -8.0)
+      roundedStreamTextField.autoPinEdge(.Left, toEdge: .Left, ofView: topView, withOffset: 8.0)
+      roundedStreamTextField.autoPinEdge(.Right, toEdge: .Right, ofView: topView, withOffset: -8.0)
+      roundedStreamTextField.autoPinEdge(.Top, toEdge: .Top, ofView: topView, withOffset: 24.0)
+      roundedStreamTextField.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: topView, withOffset: -8.0)
       
       streamNameTextField.autoPinEdge(.Left, toEdge: .Left, ofView: roundedStreamTextField, withOffset: 8.0)
       streamNameTextField.autoPinEdge(.Right, toEdge: .Right, ofView: roundedStreamTextField, withOffset: -8.0)
@@ -116,8 +113,6 @@ class MainViewController: UIViewController {
       
       gradleView.autoMatchDimension(.Width, toDimension: .Width, ofView: self.view, withMultiplier: 0.4)
       gradleView.autoMatchDimension(.Height, toDimension: .Width, ofView: gradleView, withMultiplier: 0.4588)
-      gradleView.autoCenterInSuperview()
-      warningView.autoCenterInSuperview()
       
       didUpdateViewConstraints = true
     }
@@ -126,8 +121,7 @@ class MainViewController: UIViewController {
   
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    let blurViewHeight = blurLoadingView.bounds.height
-    tableView.contentInset = UIEdgeInsetsMake(blurViewHeight, 0, 0, 0)
+    tableView.contentInset = UIEdgeInsetsMake(topView.bounds.height, 0, 0, 0)
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -153,12 +147,30 @@ class MainViewController: UIViewController {
     gradleView.hidden = true
     tableView.hidden = false
     warningView.hidden = true
+    loadingView.hidden = true
+    loadingView.stopAnimating()
   }
   
   func showLoading() {
     gradleView.hidden = true
     tableView.hidden = true
+    warningView.hidden = true
+    loadingView.hidden = false
+    loadingView.startAnimating()
+  }
+  
+  func showWarning() {
+    gradleView.hidden = true
+    tableView.hidden = true
     warningView.hidden = false
+    loadingView.hidden = true
+    loadingView.stopAnimating()
+  }
+  
+  func loadProject(project : Project) {
+    let detailViewController : DetailViewController = DetailViewController()
+    detailViewController.project = project
+    self.presentViewController(detailViewController, animated: true, completion: nil)
   }
 
 }
@@ -169,6 +181,7 @@ extension MainViewController : UITextFieldDelegate {
     textField.resignFirstResponder()
     let text = textField.text
     if text != nil && text?.characters.count > 0 {
+      showLoading()
       searchInteractor?.search(text!)
     }
     return true
@@ -184,11 +197,11 @@ extension MainViewController : SearchProtocol {
   }
   
   func searchNoResults() {
-    
+    showWarning()
   }
   
   func searchFail() {
-    
+    showWarning()
   }
   
 }
@@ -196,6 +209,7 @@ extension MainViewController : SearchProtocol {
 extension MainViewController : UITableViewDelegate {
   
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    loadProject((searchInteractor!.projects![indexPath.row]))
     tableView.deselectRowAtIndexPath(indexPath, animated: true)
     self.view.endEditing(true)
   }
