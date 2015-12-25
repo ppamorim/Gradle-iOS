@@ -106,8 +106,8 @@ class MainViewController: UIViewController {
       roundedStreamTextField.autoPinEdge(.Top, toEdge: .Top, ofView: topView, withOffset: 24.0)
       roundedStreamTextField.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: topView, withOffset: -8.0)
       
-      streamNameTextField.autoPinEdge(.Left, toEdge: .Left, ofView: roundedStreamTextField, withOffset: 8.0)
-      streamNameTextField.autoPinEdge(.Right, toEdge: .Right, ofView: roundedStreamTextField, withOffset: -8.0)
+      streamNameTextField.autoPinEdge(.Left, toEdge: .Left, ofView: roundedStreamTextField, withOffset: 10.0)
+      streamNameTextField.autoPinEdge(.Right, toEdge: .Right, ofView: roundedStreamTextField, withOffset: -10.0)
       streamNameTextField.autoPinEdge(.Top, toEdge: .Top, ofView: roundedStreamTextField, withOffset: 8.0)
       streamNameTextField.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: roundedStreamTextField, withOffset: -8.0)
       

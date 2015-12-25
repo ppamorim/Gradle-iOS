@@ -1,5 +1,7 @@
+"return" = "Return";
 "search" = "Search...";
 "no_library_found" = "No library found";
 "group_id" = "GroupId";
 "artifact_id" = "ArtifactId";
 "version" = "Version";
+"press_to_copy" = "Press to copy to clipboard";

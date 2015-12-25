@@ -12,8 +12,10 @@ class SearchService {
   
   func search(completionHandler: (NSError?, [Project]?) -> (), filter : String) -> () {
     
+    let cleanFilter = filter.stringByReplacingOccurrencesOfString(" ", withString: "")
+    
     let mutableURLRequest = NSMutableURLRequest(URL: NSURL(string:
-      "http://search.maven.org/solrsearch/select?q=\(filter)&wt=json")!)
+      "http://search.maven.org/solrsearch/select?q=\(cleanFilter)&wt=json")!)
     mutableURLRequest.timeoutInterval = 30.0
     
     Alamofire.request(.GET, mutableURLRequest)
