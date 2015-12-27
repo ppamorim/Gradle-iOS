@@ -85,15 +85,19 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Gradle-iOS/Alamofire.framework"
+  install_framework "Pods-Gradle-iOS/AlamofireImage.framework"
   install_framework "Pods-Gradle-iOS/AlamofireObjectMapper.framework"
   install_framework "Pods-Gradle-iOS/Bolts.framework"
+  install_framework "Pods-Gradle-iOS/LNRSimpleNotifications.framework"
   install_framework "Pods-Gradle-iOS/ObjectMapper.framework"
   install_framework "Pods-Gradle-iOS/PureLayout.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Gradle-iOS/Alamofire.framework"
+  install_framework "Pods-Gradle-iOS/AlamofireImage.framework"
   install_framework "Pods-Gradle-iOS/AlamofireObjectMapper.framework"
   install_framework "Pods-Gradle-iOS/Bolts.framework"
+  install_framework "Pods-Gradle-iOS/LNRSimpleNotifications.framework"
   install_framework "Pods-Gradle-iOS/ObjectMapper.framework"
   install_framework "Pods-Gradle-iOS/PureLayout.framework"
 fi

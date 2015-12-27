@@ -38,4 +38,9 @@ class SearchInteractor {
     return task.task
   }
   
+  func cleanProjects() {
+    self.projects?.removeAll()
+    self.projects = nil
+  }
+  
 }

@@ -67,7 +67,8 @@ class MainViewController: UIViewController {
   }()
 
   deinit {
-    searchInteractor = nil
+    self.searchInteractor!.cleanProjects()
+    self.searchInteractor = nil
   }
   
   override func loadView() {
@@ -130,6 +131,7 @@ class MainViewController: UIViewController {
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
+    self.searchInteractor!.cleanProjects()
   }
   
   func configInteractors() {

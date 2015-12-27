@@ -14,6 +14,8 @@
 		EB320E8B1C28996A001F9297 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB320E881C28996A001F9297 /* Alamofire.framework */; };
 		EB320E8C1C28996A001F9297 /* AlamofireObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB320E891C28996A001F9297 /* AlamofireObjectMapper.framework */; };
 		EB320E8D1C28996A001F9297 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB320E8A1C28996A001F9297 /* ObjectMapper.framework */; };
+		EB4E9AA31C2F27FB002D5E64 /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4E9AA21C2F27FB002D5E64 /* AlamofireImage.framework */; };
+		EB4E9AA51C2F2CB2002D5E64 /* LNRSimpleNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4E9AA41C2F2CB2002D5E64 /* LNRSimpleNotifications.framework */; };
 		EB54574C1C281AC300F436C1 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB54574B1C281AC300F436C1 /* StringExtension.swift */; };
 		EB9058CC1C2779B70018D327 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9058CB1C2779B70018D327 /* AppDelegate.swift */; };
 		EB9058D31C2779B70018D327 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB9058D21C2779B70018D327 /* Assets.xcassets */; };
@@ -38,6 +40,8 @@
 		EB320E881C28996A001F9297 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
 		EB320E891C28996A001F9297 /* AlamofireObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireObjectMapper.framework; path = "Pods/../build/Debug-iphoneos/AlamofireObjectMapper.framework"; sourceTree = "<group>"; };
 		EB320E8A1C28996A001F9297 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = "Pods/../build/Debug-iphoneos/ObjectMapper.framework"; sourceTree = "<group>"; };
+		EB4E9AA21C2F27FB002D5E64 /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = "Pods/../build/Debug-iphoneos/AlamofireImage.framework"; sourceTree = "<group>"; };
+		EB4E9AA41C2F2CB2002D5E64 /* LNRSimpleNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LNRSimpleNotifications.framework; path = "Pods/../build/Debug-iphoneos/LNRSimpleNotifications.framework"; sourceTree = "<group>"; };
 		EB54574B1C281AC300F436C1 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		EB9058C81C2779B70018D327 /* Gradle-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gradle-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB9058CB1C2779B70018D327 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +64,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB4E9AA51C2F2CB2002D5E64 /* LNRSimpleNotifications.framework in Frameworks */,
+				EB4E9AA31C2F27FB002D5E64 /* AlamofireImage.framework in Frameworks */,
 				EBBD5B4F1C2AD21100AD9511 /* Bolts.framework in Frameworks */,
 				EB320E8B1C28996A001F9297 /* Alamofire.framework in Frameworks */,
 				EB320E8C1C28996A001F9297 /* AlamofireObjectMapper.framework in Frameworks */,
@@ -75,6 +81,8 @@
 		6D16D671208B800E9F3CED04 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EB4E9AA41C2F2CB2002D5E64 /* LNRSimpleNotifications.framework */,
+				EB4E9AA21C2F27FB002D5E64 /* AlamofireImage.framework */,
 				EBBD5B4E1C2AD21100AD9511 /* Bolts.framework */,
 				EB320E881C28996A001F9297 /* Alamofire.framework */,
 				EB320E891C28996A001F9297 /* AlamofireObjectMapper.framework */,

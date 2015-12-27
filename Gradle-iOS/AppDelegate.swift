@@ -1,12 +1,5 @@
-//
-//  AppDelegate.swift
-//  Gradle-iOS
-//
-//  Created by Pedro Paulo Amorim on 20/12/15.
-//  Copyright © 2015 ppamorim. All rights reserved.
-//
-
 import UIKit
+import LNRSimpleNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,9 +13,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     self.window!.backgroundColor = UIColor.whiteColor()
     self.window!.rootViewController = MainViewController()
     self.window!.makeKeyAndVisible()
+    configNotification()
     return true
   }
 
+  func configNotification() {
+    LNRSimpleNotifications.sharedNotificationManager.notificationsPosition = LNRNotificationPosition.Top
+    LNRSimpleNotifications.sharedNotificationManager.notificationsBackgroundColor = UIColor.whiteColor()
+    LNRSimpleNotifications.sharedNotificationManager.notificationsTitleTextColor = UIColor.blackColor()
+    LNRSimpleNotifications.sharedNotificationManager.notificationsBodyTextColor = UIColor.darkGrayColor()
+    LNRSimpleNotifications.sharedNotificationManager.notificationsSeperatorColor = UIColor.grayColor()
+  }
 
 }
 

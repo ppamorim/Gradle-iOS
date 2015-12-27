@@ -5,3 +5,4 @@
 "artifact_id" = "ArtifactId";
 "version" = "Version";
 "press_to_copy" = "Press to copy to clipboard";
+"gradle_copied" = "Gradle address copied";

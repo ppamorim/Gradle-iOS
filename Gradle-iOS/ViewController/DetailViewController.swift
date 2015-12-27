@@ -1,7 +1,11 @@
 import UIKit
 import PureLayout
+import AlamofireImage
+import LNRSimpleNotifications
 
 class DetailViewController: UIViewController {
+  
+  let gradleIcon = "http://gradle.wpengine.netdna-cdn.com/wp-content/uploads/2015/11/swearing_gradlephant_slate1.svg"
   
   var didUpdateViewConstraints = false
   
@@ -26,23 +30,29 @@ class DetailViewController: UIViewController {
     return containerGradle
   }()
   
-  let gradleLabel : UILabel = {
-    let gradleLabel = UILabel.newAutoLayoutView()
-    gradleLabel.text = " "
-    gradleLabel.textColor = UIColor.whiteColor()
-    gradleLabel.textAlignment = .Center
-    gradleLabel.lineBreakMode = .ByWordWrapping
-    gradleLabel.numberOfLines = 0
+  let gradleLabel : UIButton = {
+    let gradleLabel = UIButton.newAutoLayoutView()
+    gradleLabel.setTitle(" ", forState: .Normal)
+    gradleLabel.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+    gradleLabel.contentHorizontalAlignment = .Center
+    gradleLabel.contentVerticalAlignment = .Center
+    gradleLabel.titleLabel!.textAlignment = .Center
+    gradleLabel.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
+    gradleLabel.titleLabel!.numberOfLines = 0
     gradleLabel.alpha = 0.0
     return gradleLabel
   }()
   
-  let gradleCommentLabel : UILabel = {
-    let gradleCommentLabel = UILabel.newAutoLayoutView()
-    gradleCommentLabel.text = "press_to_copy".localized
-    gradleCommentLabel.textColor = UIColor(rgba: "#84BA40")
-    gradleCommentLabel.textAlignment = .Center
-    gradleCommentLabel.font = gradleCommentLabel.font.fontWithSize(10)
+  let gradleCommentLabel : UIButton = {
+    let gradleCommentLabel = UIButton.newAutoLayoutView()
+    gradleCommentLabel.setTitle("press_to_copy".localized, forState: .Normal)
+    gradleCommentLabel.setTitleColor(UIColor(rgba: "#84BA40"), forState: .Normal)
+    gradleCommentLabel.contentHorizontalAlignment = .Center
+    gradleCommentLabel.contentVerticalAlignment = .Center
+    gradleCommentLabel.titleLabel!.textAlignment = .Center
+    gradleCommentLabel.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
+    gradleCommentLabel.titleLabel!.numberOfLines = 0
+    gradleCommentLabel.titleLabel!.font = gradleCommentLabel.titleLabel!.font.fontWithSize(10)
     gradleCommentLabel.alpha = 0.0
     return gradleCommentLabel
   }()
@@ -78,16 +88,6 @@ class DetailViewController: UIViewController {
     versionCount.font = versionCount.font.fontWithSize(12)
     return versionCount
   }()
-  
-//  let detailProjectLabel : UILabel = {
-//    let detailProjectLabel = UILabel.newAutoLayoutView()
-//    detailProjectLabel.alpha = 0.0
-//    detailProjectLabel.lineBreakMode = .ByWordWrapping
-//    detailProjectLabel.numberOfLines = 0
-//    detailProjectLabel.textColor = UIColor(rgba: "#02303A")
-//    detailProjectLabel.font = detailProjectLabel.font.fontWithSize(12)
-//    return detailProjectLabel
-//  }()
   
   override func loadView() {
     super.loadView()
@@ -135,18 +135,18 @@ class DetailViewController: UIViewController {
       
       gradleCommentLabel.autoPinEdge(.Left, toEdge: .Left, ofView: containerGradle, withOffset: 8.0)
       gradleCommentLabel.autoPinEdge(.Right, toEdge: .Right, ofView: containerGradle, withOffset: -8.0)
-      gradleCommentLabel.autoPinEdge(.Top, toEdge: .Bottom, ofView: gradleLabel, withOffset: 2.0)
+      gradleCommentLabel.autoPinEdge(.Top, toEdge: .Bottom, ofView: gradleLabel)
       gradleCommentLabel.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: containerGradle, withOffset: -8.0)
 
       groupId.autoPinEdge(.Top, toEdge: .Bottom, ofView: containerGradle, withOffset: basePadding)
       groupId.autoPinEdgeToSuperviewEdge(.Left, withInset: basePadding)
       groupId.autoPinEdgeToSuperviewEdge(.Right, withInset: basePadding)
       
-      artifactId.autoPinEdge(.Top, toEdge: .Bottom, ofView: groupId, withOffset: basePadding)
+      artifactId.autoPinEdge(.Top, toEdge: .Bottom, ofView: groupId, withOffset: 8.0)
       artifactId.autoPinEdgeToSuperviewEdge(.Left, withInset: basePadding)
       artifactId.autoPinEdgeToSuperviewEdge(.Right, withInset: basePadding)
       
-      versionCount.autoPinEdge(.Top, toEdge: .Bottom, ofView: artifactId, withOffset: basePadding)
+      versionCount.autoPinEdge(.Top, toEdge: .Bottom, ofView: artifactId, withOffset: 8.0)
       versionCount.autoPinEdgeToSuperviewEdge(.Left, withInset: basePadding)
       versionCount.autoPinEdgeToSuperviewEdge(.Right, withInset: basePadding)
       
@@ -158,6 +158,10 @@ class DetailViewController: UIViewController {
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
     loadProject()
+    topHeaderImage.af_setImageWithURL(NSURL(string: gradleIcon)!,
+      placeholderImage: nil,
+      filter: nil,
+      imageTransition: .CrossDissolve(0.2))
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -166,6 +170,8 @@ class DetailViewController: UIViewController {
   
   func configTarget() {
     returnButton.addTarget(self, action: "returnClick", forControlEvents: .TouchUpInside)
+    gradleLabel.addTarget(self, action: "copyAddress", forControlEvents: .TouchUpInside)
+    gradleCommentLabel.addTarget(self, action: "copyAddress", forControlEvents: .TouchUpInside)
   }
   
   func returnClick() {
@@ -175,12 +181,18 @@ class DetailViewController: UIViewController {
   
   func loadProject() {
     if project != nil {
-      groupId.text = "\("group_id".localized): \(project!.groupId)"
-      artifactId.text = "\("artifact_id".localized): \(project!.artifactId)"
-      versionCount.text = "\("version".localized): \(project!.versionCount)"
-      gradleLabel.text = project!.id
+      groupId.attributedText = boldText("group_id".localized, value: ": \(project!.groupId)")
+      artifactId.attributedText = boldText("artifact_id".localized, value: ": \(project!.artifactId)")
+      versionCount.attributedText = boldText("version".localized, value: ": \(project!.versionCount)")
+      gradleLabel.setTitle(project!.id, forState: .Normal)
       animateViews()
     }
+  }
+  
+  func boldText(key: String, value: String) -> NSMutableAttributedString {
+    let attributedString : NSMutableAttributedString = NSMutableAttributedString(string: key, attributes: [NSFontAttributeName : UIFont.boldSystemFontOfSize(14)])
+    attributedString.appendAttributedString(NSMutableAttributedString(string: value, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(14)]))
+    return attributedString
   }
   
   func animateViews() {
@@ -192,6 +204,19 @@ class DetailViewController: UIViewController {
         self.gradleCommentLabel.alpha = 1.0
       }, completion: { (finished: Bool) -> Void in
     })
+  }
+  
+  func copyAddress() {
+    if project == nil {
+      return
+    }
+    UIPasteboard.generalPasteboard().string = project!.id
+    triggerNofitication()
+  }
+  
+  func triggerNofitication() {
+    print("triggerNofitication")
+    LNRSimpleNotifications.sharedNotificationManager.showNotification("Gradle-iOS", body: "gradle_copied".localized, callback: nil)
   }
   
 }
