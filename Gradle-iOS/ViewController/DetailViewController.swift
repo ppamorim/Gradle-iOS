@@ -215,7 +215,6 @@ class DetailViewController: UIViewController {
   }
   
   func triggerNofitication() {
-    print("triggerNofitication")
     LNRSimpleNotifications.sharedNotificationManager.showNotification("Gradle-iOS", body: "gradle_copied".localized, callback: nil)
   }
   
